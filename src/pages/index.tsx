@@ -1,9 +1,9 @@
 import { useAuthContext } from "contexts/AuthContext";
 import { GetServerSideProps } from "next";
-import { parseCookies } from "nookies";
 import { FormEvent, useState } from "react";
 
 import styles from "styles/Home.module.css";
+import { withSSRGuest } from "../../utils/withSSRGuest";
 
 export default function Home() {
   const { signIn } = useAuthContext();
@@ -41,19 +41,10 @@ export default function Home() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const cookies = parseCookies(ctx);
-
-  if (cookies["nextauth.token"]) {
+export const getServerSideProps: GetServerSideProps = withSSRGuest(
+  async (ctx) => {
     return {
-      redirect: {
-        destination: "/dashboard",
-        permanent: false,
-      },
+      props: {},
     };
   }
-
-  return {
-    props: {},
-  };
-};
+);
