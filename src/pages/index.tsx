@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import { FormEvent, useState } from "react";
 
 import styles from "styles/Home.module.css";
-import { withSSRGuest } from "../../utils/withSSRGuest";
+import { withSSRGuest } from "utils/withSSRGuest";
 
 export default function Home() {
   const { signIn } = useAuthContext();

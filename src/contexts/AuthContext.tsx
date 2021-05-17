@@ -5,7 +5,8 @@ import {
   useEffect,
   useState,
 } from "react";
-import { api, SignOut } from "services/api";
+import { SignOut } from "services/api";
+import { api } from "services/apiClient";
 import { setCookie, parseCookies, destroyCookie } from "nookies";
 import Router from "next/router";
 
@@ -47,7 +48,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
           setUser({ email, permissions, roles });
         })
         .catch(() => {
-          SignOut();
+          if (process.browser) {
+            SignOut();
+          }
         });
     }
   }, []);
