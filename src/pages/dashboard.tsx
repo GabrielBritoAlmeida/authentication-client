@@ -1,6 +1,6 @@
 import { useAuthContext } from "contexts/AuthContext";
+import { useCan } from "hooks/useCan";
 import { GetServerSideProps } from "next";
-import { destroyCookie } from "nookies";
 import { useEffect } from "react";
 import { setupAPIClient } from "services/api";
 import { api } from "services/apiClient";
@@ -9,9 +9,15 @@ import { withSSRAuth } from "utils/withSSRAuth";
 export default function Dashboard() {
   const { user } = useAuthContext();
 
+  const useCanSeeMetrics = useCan({
+    permissions: ["metrics.list"],
+  });
+
   useEffect(() => {
     api.get("/me").then((response) => console.log(response));
   }, []);
+
+  if (!useCanSeeMetrics) return <p>Sem permissão no momento.</p>;
 
   return (
     <div>
