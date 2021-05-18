@@ -1,5 +1,6 @@
 import { useAuthContext } from "contexts/AuthContext";
 import { GetServerSideProps } from "next";
+import { destroyCookie } from "nookies";
 import { useEffect } from "react";
 import { setupAPIClient } from "services/api";
 import { api } from "services/apiClient";
@@ -23,7 +24,7 @@ export const getServerSideProps: GetServerSideProps = withSSRAuth(
   async (ctx) => {
     const apiClient = setupAPIClient(ctx);
     const response = await apiClient.get("/me");
-    console.log("🚀 ~ file: dashboard.tsx ~ line 26 ~ response", response)
+    console.log("🚀 ~ file: dashboard.tsx ~ line 27 ~ response", response);
 
     return {
       props: {},
