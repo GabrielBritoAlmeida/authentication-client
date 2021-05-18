@@ -1,3 +1,4 @@
+import { Can } from "components/Cant";
 import { useAuthContext } from "contexts/AuthContext";
 import { useCan } from "hooks/useCan";
 import { GetServerSideProps } from "next";
@@ -20,9 +21,9 @@ export default function Dashboard() {
   if (!useCanSeeMetrics) return <p>Sem permissão no momento.</p>;
 
   return (
-    <div>
+    <Can>
       <h1>Dashboard {user?.email}</h1>
-    </div>
+    </Can>
   );
 }
 
