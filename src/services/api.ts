@@ -6,12 +6,6 @@ import { AuthTokenError } from "./errors/AuthTokenErros";
 let isRefreshing = false;
 let failureRequestQueue = [];
 
-export function SignOut() {
-  destroyCookie(undefined, "nextauth.token");
-  destroyCookie(undefined, "nextauth.refreshToken");
-  Router.push("/");
-}
-
 export function setupAPIClient(ctx = undefined) {
   let cookies = parseCookies(ctx);
 
