@@ -10,10 +10,20 @@ import { withSSRAuth } from "utils/withSSRAuth";
 export default function Dashboard() {
   const { user } = useAuthContext();
 
+  const useCanSeeMetrics = useCan({
+    permissions: ["metrics.list"],
+  });
+
+  useEffect(() => {
+    api.get("/me").then((response) => console.log(response));
+  }, []);
+
+  if (!useCanSeeMetrics) return <p>Sem permissão no momento.</p>;
+
   return (
-    <div>
-      <h1>Dashboard {user?.email}</h1>
-    </div>
+    <Can>
+      <h1>Metrics {user?.email}</h1>
+    </Can>
   );
 }
 
@@ -21,9 +31,14 @@ export const getServerSideProps: GetServerSideProps = withSSRAuth(
   async (ctx) => {
     const apiClient = setupAPIClient(ctx);
     const response = await apiClient.get("/me");
+    console.log("🚀 ~ file: dashboard.tsx ~ line 27 ~ response", response);
 
     return {
       props: {},
     };
+  },
+  {
+    permissions: ["metrics.list"],
+    roles: ["administrator"],
   }
 );
